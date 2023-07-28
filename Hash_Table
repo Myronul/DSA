@@ -1,0 +1,161 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<stdbool.h>
+
+#define max 255
+#define TABLESIZE 10
+
+typedef struct persoana
+{
+    char name[max];
+    int age;
+    struct persoana *pnext;
+}persoana,*ppersoana,**pppersoana;
+
+ppersoana hash_table[TABLESIZE];
+
+void initializare()
+{
+    for(int i=0;i<TABLESIZE;i++)
+    {
+        hash_table[i]=NULL;
+    }
+}
+
+unsigned int hash(char *name)
+{
+    int lungime=strnlen(name,max);
+    unsigned int hash_value=0;
+    for(int i=0;i<lungime;i++)
+    {
+        hash_value=hash_value+name[i];
+        hash_value=(hash_value*name[i]) % TABLESIZE;
+    }
+
+    return hash_value;
+
+}
+
+void afisare()
+{
+    printf("Start:\n");
+    for(int i=0;i<TABLESIZE;i++)
+    {
+        if(hash_table[i]==NULL)
+        {
+            printf("\n%i -- \n", i);
+        }
+        else
+        {
+            ppersoana temp;
+            temp=(ppersoana)malloc(sizeof(persoana));
+            temp=hash_table[i];
+            printf("\n%i ",i);
+            do
+            {
+                printf("%s, ",temp->name);
+                temp=temp->pnext;
+                
+            } while (temp!=NULL);
+            
+        }
+
+
+    }
+    printf("End\n");
+}
+
+bool adaugare()
+{
+    ppersoana p;
+    p=(ppersoana)malloc(sizeof(persoana));
+    printf("\n Adaugati numele dorit:");
+    scanf("%s", p->name);
+
+    int index=hash(p->name);
+    if(hash_table[index]==NULL)
+    {
+        hash_table[index]=p;
+    }
+    else
+    {
+        //return false;
+        p->pnext=hash_table[index];
+        hash_table[index]=p;
+    }
+
+    return true;
+
+}
+
+bool cauta()
+{
+    char *name;
+    //Alocam dinamic memorie intrucat *name nu are memorie pointata spre nicaieri
+    name=(char*)malloc(max*sizeof(char));
+    ppersoana temp;
+
+    printf("\nIntroduceti numele cautat:\n");
+    scanf("%s", name);
+    int index=hash(name);
+
+    if(hash_table[index]!=NULL && strcmp(hash_table[index]->name,name)==0)
+    {
+        printf("Numele %s este in Tabela.\n", name);
+        free(name);
+        return true;
+    }
+    else
+    {
+        
+        for(int i=0;i<TABLESIZE;i++)
+        {
+            
+            temp=hash_table[i];
+
+            while(temp!=NULL)
+            {
+                if(temp!=NULL && strcmp(temp->name,name)==0)
+             {
+                   printf("Numele %s este in Tabela.\n", name);
+                   return true;
+             }
+
+                temp=temp->pnext;
+            }
+
+            
+        }
+
+        printf("Numele %s nu s-a gasit.", name);
+        return false;
+        
+    }
+
+}
+
+
+int main()
+{
+    initializare();
+    //afisare();
+
+    int i,n;
+    printf("Adaugati numarul de persoana de adaugat:");
+    scanf("%i", &n);
+
+    for(i=0;i<n;i++)
+    {
+        adaugare();
+    }
+
+    afisare();
+    cauta();
+    cauta();
+    cauta();
+
+    return 0;
+
+
+}
