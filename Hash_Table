@@ -135,25 +135,62 @@ bool cauta()
 
 }
 
+void meniu()
+{
+    initializare();
+    int sel;
+    int i,n;
+    int cautare;
+    printf("Selectati operatiunea dorita:\n1.Adaugare.\n2.Cautare\n3.Afisare\n0.Finalizare \n");
+    scanf("%i", &sel);
+
+    while(sel!=0)
+    {
+         if(sel==1)
+    {
+         printf("\nAdaugati numarul de persoana de adaugat:");
+         scanf("%i", &n);
+
+     for(i=0;i<n;i++)
+         {
+           adaugare();
+         }
+    }
+
+    if(sel==2)
+    {
+        printf("\nIntroduceti numarul de persoane cautate:");
+        scanf("%i", &cautare);
+        for(i=0;i<cautare;i++)
+        {
+            cauta();
+        }
+    }
+
+    if(sel==3)
+    {
+        afisare();
+    }
+
+            printf("\nIntroduceti urmatoarea comanda:");
+            scanf("%i", &sel);
+
+    }
+   
+
+    printf("\nFinalizare.\n");
+    
+
+
+}
+
 
 int main()
 {
     initializare();
     //afisare();
 
-    int i,n;
-    printf("Adaugati numarul de persoana de adaugat:");
-    scanf("%i", &n);
-
-    for(i=0;i<n;i++)
-    {
-        adaugare();
-    }
-
-    afisare();
-    cauta();
-    cauta();
-    cauta();
+    meniu();
 
     return 0;
 
