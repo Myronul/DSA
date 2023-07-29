@@ -52,12 +52,12 @@ void afisare()
             temp=(ppersoana)malloc(sizeof(persoana));
             temp=hash_table[i];
             printf("\n%i ",i);
-            do
+            while (temp!=NULL)
             {
-                printf("%s, ",temp->name);
+                printf("%s  ",temp->name);
                 temp=temp->pnext;
                 
-            } while (temp!=NULL);
+            } 
             
         }
 
@@ -135,20 +135,77 @@ bool cauta()
 
 }
 
+bool sterge()
+{
+    char *name;
+    name=(char*)malloc(max*sizeof(char));
+    ppersoana temp;
+    ppersoana q;
+    int i;
+    printf("\nIntroduceti numele de sters:");
+    scanf("%s", name);
+
+    int index=hash(name);
+
+    if(hash_table[index]!=NULL && strcmp(hash_table[index]->name,name)==0)
+    {
+        //caz in care e primul element din tabela
+        if(hash_table[index]->pnext==NULL)
+        {
+
+            hash_table[index]=NULL;
+            return true;
+        }
+        else //este primul element dar urmeaza altele
+        {
+            
+            temp=hash_table[index];
+            hash_table[index]=hash_table[index]->pnext;
+            free(temp);
+            return true;
+        }
+    }
+
+    //cazul in care nu e primul nume
+    else
+    {
+        temp=hash_table[index];
+
+        while(hash_table[index]!=NULL)
+        {
+            if(hash_table[index]!=NULL && strcmp(hash_table[index]->pnext->name,name)==0)
+            {
+                q=hash_table[index]->pnext;
+                hash_table[index]->pnext=q->pnext;
+                free(q);
+                hash_table[index]=temp;
+                return true;
+            }
+            
+            hash_table[index]=hash_table[index]->pnext;
+
+        }
+        
+    }
+
+    printf("\n Numele dorit de eliminat nu s-a gasit.\n");
+    return false;
+}
+
 void meniu()
 {
     initializare();
     int sel;
     int i,n;
     int cautare;
-    printf("Selectati operatiunea dorita:\n1.Adaugare.\n2.Cautare\n3.Afisare\n0.Finalizare \n");
+    printf("Selectati operatiunea dorita:\n1.Adaugare.\n2.Cautare\n3.Afisare\n4.Stergere\n0.Finalizare \nIntroduceti:");
     scanf("%i", &sel);
 
     while(sel!=0)
     {
          if(sel==1)
     {
-         printf("\nAdaugati numarul de persoana de adaugat:");
+         printf("\nAdaugati numarul de persoana:");
          scanf("%i", &n);
 
      for(i=0;i<n;i++)
@@ -170,6 +227,11 @@ void meniu()
     if(sel==3)
     {
         afisare();
+    }
+
+    if(sel==4)
+    {
+        sterge();
     }
 
             printf("\nIntroduceti urmatoarea comanda:");
