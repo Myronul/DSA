@@ -1,0 +1,26 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+void* aloca_memorie(size_t n)
+{
+    void *p;
+    p=malloc(sizeof(n));
+    printf("\n %p",p);
+    
+    return p;
+    
+}
+
+int main()
+{
+    int *p;
+    
+    printf("\n %p",p);
+    
+    p=(int*)aloca_memorie(sizeof(int));
+    
+    printf("\n %p",p);
+    
+    
+    return 0;
+}
