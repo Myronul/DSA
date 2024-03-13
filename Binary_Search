@@ -1,0 +1,70 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
+void cautare_binara(int *vector,int n,int target)
+{
+    int dreapta;
+    int stanga;
+    dreapta=n;
+    stanga=0;
+    int mijloc;
+    int ok=0;
+
+    while(stanga<=dreapta)
+    {
+        mijloc=(dreapta+stanga)/2;
+
+        if(vector[mijloc]==target)
+        {
+            printf("\S-a gasit elementul:%i\n", vector[mijloc]);
+            ok=1;
+            break;
+        }
+
+        if(target<vector[mijloc])
+        {
+            dreapta=mijloc-1;
+        }
+
+        else
+        {
+            stanga=stanga+1;
+        }
+
+    }
+
+    if(ok==0)
+    {
+        printf("\nNu s-a gasit!");
+    }
+
+
+
+
+
+}
+
+int main()
+{
+    int n;
+    int target;
+    printf("\nNr de valori din vector:");
+    scanf("%i",&n);
+    int v[n];
+
+    for(int i=0;i<n;i++)
+    {
+        printf("\nIntroduceti element:");
+        scanf("%i",&v[i]);
+    }
+
+    //pp ca le introducem ordonat
+    printf("\nIntroduceti targetul:");
+    scanf("%i",&target);
+
+    cautare_binara(v,n,target);
+
+
+    return 0;
+}
