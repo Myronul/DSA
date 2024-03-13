@@ -17,7 +17,7 @@ void cautare_binara(int *vector,int n,int target)
 
         if(vector[mijloc]==target)
         {
-            printf("\S-a gasit elementul:%i\n", vector[mijloc]);
+            printf("\nS-a gasit elementul:%i\n", vector[mijloc]);
             ok=1;
             break;
         }
@@ -45,6 +45,41 @@ void cautare_binara(int *vector,int n,int target)
 
 }
 
+void sortare(int *vector,int n)
+{
+    int temp;
+    int i,j;
+
+    for(i=0;i<n;i++)
+    {
+        for(j=i+1;j<n;j++)
+        {
+            if(vector[i]>vector[j])
+            {
+                temp=vector[i];
+                vector[i]=vector[j];
+                vector[j]=temp;
+                j=i+1;
+            }
+        }
+    }
+
+
+
+}
+
+void afisare(int *vector,int n)
+{
+    int i;
+
+    for(i=0;i<n;i++)
+    {
+        printf(" %i ",vector[i]);
+    }
+
+    printf("\n");
+}
+
 int main()
 {
     int n;
@@ -58,6 +93,12 @@ int main()
         printf("\nIntroduceti element:");
         scanf("%i",&v[i]);
     }
+
+    afisare(v,n);
+
+    sortare(v,n);
+
+    afisare(v,n);
 
     //pp ca le introducem ordonat
     printf("\nIntroduceti targetul:");
