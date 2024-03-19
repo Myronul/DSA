@@ -1,0 +1,82 @@
+#include<iostream>
+using namespace std;
+#define n 10
+
+void initializare(int *freq,int *seen)
+{
+    for(int i=0;i<n;i++)
+    {
+        freq[i]=0;
+        seen[i]=0;
+    }
+
+}
+
+int main()
+{
+    int v[n];
+    int i,j;
+    int freq[n];
+    int seen[n];
+    int k=0;
+
+    for(i=0;i<n;i++)
+    {
+        cout<<"\nel:";
+        cin>>v[i];
+    }
+
+    initializare(freq,seen);
+
+    for(i=0;i<n;i++)
+    {
+        k=0;
+        while(k<n)
+        {
+            //verifica daca elementul a fost vazut
+            if(v[i]==seen[k])
+            {
+                i++;
+                k=0;//revine 0 deoarece e posibil ca urmatorul element sa fie si el vazut
+            }
+
+            else
+            {
+                k++;
+            }
+        }
+
+        for(j=0;j<n;j++)
+        {
+            
+            if(v[i]==v[j])
+            {
+                freq[i]++;
+                seen[i]=v[i];
+            }
+
+        }
+    }
+
+    cout<<endl;
+    //cout<<"Vector: ";
+    for(i=0;i<n;i++)
+    {
+        cout<<v[i]<<" ";
+    }
+    cout<<endl<<endl;
+    //cout<<"Frecventa: ";
+    for(i=0;i<n;i++)
+    {
+        cout<<freq[i]<<" ";
+    }
+    cout<<endl;
+    //cout<<"Vazut: ";
+    for(i=0;i<n;i++)
+    {
+        cout<<seen[i]<<" ";
+    }
+
+
+
+}
