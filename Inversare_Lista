@@ -1,0 +1,88 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+typedef struct nod
+{
+   int data;
+   struct nod *pnext;
+
+}nod;
+
+void* creare_cap()
+{
+   struct nod *prim;
+   prim = malloc(sizeof(nod));
+
+   printf("\ndata: ");
+   scanf("%i", &(prim->data));
+
+   prim->pnext = NULL;
+
+   return prim;
+}
+
+
+void adauga_nod(struct nod**p)
+{
+   struct nod *q;
+   q = malloc(sizeof(nod));
+
+   printf("\ndata: ");
+   scanf("%i", &(q->data));
+
+   q->pnext = (*p);
+   *p = q;
+
+}
+
+void afisare_lista(struct nod *p)
+{
+   printf("\n");
+   
+   while(p!=NULL)
+   {
+      printf(" %i ", p->data);
+      p = p->pnext;
+   }
+}
+
+
+void inversare_lista(struct nod *p)
+{
+   struct nod *next = NULL;
+   struct nod *prev = NULL;
+   struct nod *current;
+
+   current = p;
+
+   while(current!=NULL)
+   {
+       next = current -> pnext;
+       current -> pnext = prev;
+       prev = current;
+       current = next;
+   }
+
+
+   afisare_lista(prev);
+
+}
+
+
+int main()
+{
+   
+   struct nod*prim;
+   prim = (struct nod*)creare_cap();
+
+   for(int i=0; i<3; i++)
+   {
+      adauga_nod(&prim);
+   }
+
+   afisare_lista(prim);
+   inversare_lista(prim);
+
+   return 0; 
+}
