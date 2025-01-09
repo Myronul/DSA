@@ -1,0 +1,131 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct vecin
+{
+    struct vecin *pnext;
+    int idVecin;
+
+}vecin, *pvecin, **ppvecin;
+
+typedef struct nod
+{
+    struct vecin *primVecin; /*Lista de vecini*/
+
+    struct nod *nodeNext; /*Urmatorul nod ding graph*/
+    int idNod;
+
+}nod,*pnod,**ppnod;
+
+pnod create_graph();
+void declare_vecini(pnod prim);
+void add_node_graph(ppnod prim);
+
+pnod create_graph()
+{
+    pnod prim;
+    prim = (pnod)malloc(sizeof(nod));
+    prim->idNod = 0;
+    prim->nodeNext=NULL;
+
+    prim->primVecin = (pvecin)malloc(sizeof(vecin));
+    prim->primVecin->idVecin = 0;
+    prim->primVecin->pnext = NULL;
+
+    declare_vecini(prim);
+
+    return prim;
+}
+
+void declare_vecini(pnod prim)
+{
+    printf("\n----------Pentru nodul cu id:%i ----------------\n", prim->idNod);
+
+    int n;
+    printf("\nAdaugati nr de vecini:");
+    scanf("%i",&n);
+
+    printf("\nAdaugati id vecin:");
+    scanf("%i", &(prim->primVecin->idVecin));
+
+    for(int i=0;i<(n-1);i++)
+    {
+        
+        pvecin q;
+        q = (pvecin)malloc(sizeof(vecin));
+
+        printf("\nAdaugati id vecin:");
+        scanf("%i", &(q->idVecin));
+
+        q->pnext = prim->primVecin;
+        prim->primVecin = q;
+
+    }
+
+}
+
+
+void add_node_graph(ppnod prim)
+{
+    static int id = 1;
+
+    printf("\nFor the graph id:%i\n", (*prim)->idNod);
+
+    pnod q;
+    q = (pnod)malloc(sizeof(nod));
+    q->idNod = id++;
+    q->nodeNext = NULL;
+
+    q->primVecin = (pvecin)malloc(sizeof(vecin));
+    q->primVecin->pnext = NULL;
+    q->primVecin->idVecin = 0;
+
+    declare_vecini(q);
+
+    q->nodeNext = *prim;
+    *prim = q;
+
+}
+
+void parcurge_vecini(pvecin prim)
+{
+    while(prim!=NULL)
+    {
+        printf(" %i ", prim->idVecin);
+        prim = prim -> pnext;
+    }
+
+    printf("\n");
+}
+
+
+void parcurgere_graph(pnod graph)
+{
+    printf("\n------------------------------------\n");
+    while(graph!=NULL)
+    {
+        printf("\nNod id %i ", graph->idNod);
+        printf("Vecini: ");
+        parcurge_vecini(graph->primVecin);
+
+        graph = graph->nodeNext;
+
+    }
+
+    printf("\n");
+}
+
+
+int main()
+{      
+    pnod graph1;
+    graph1 = create_graph(graph1);
+
+    add_node_graph(&graph1);
+    add_node_graph(&graph1);
+
+    parcurgere_graph(graph1);
+
+
+    return 0;
+}
